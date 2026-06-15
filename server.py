@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 PORT = int(os.environ.get("PORT", "8080"))
-RESPONSE_BODY = b"OK\n"
+RESPONSE_BODY = b"OK"
 
 
 class LoggingHandler(BaseHTTPRequestHandler):
@@ -51,7 +51,7 @@ class LoggingHandler(BaseHTTPRequestHandler):
         pass
 
     # Every standard verb routes to the same handler.
-    do_GET = do_POST = do_PUT = do_DELETE = do_PATCH = do_HEAD = do_OPTIONS = _handle
+    do_GET = do_POST = do_PUT = do_DELETE = do_PATCH = do_HEAD = do_OPTIONS = do_TRACE = do_CONNECT = _handle
 
 
 def main():
