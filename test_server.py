@@ -27,9 +27,8 @@ class ServerBehaviorTests(unittest.TestCase):
 
     def test_any_path_returns_ok(self):
         conn = http.client.HTTPConnection("127.0.0.1", self.port)
-        conn.request("GET", "/not-found")
+        conn.request("GET", "/not-found", headers={"User-Agent": "Mozilla/5.0"})
         response = conn.getresponse()
         self.assertEqual(response.status, 200)
         self.assertEqual(response.read(), b"OK")
         conn.close()
-
