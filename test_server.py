@@ -13,24 +13,26 @@ class ServerBehaviorTests(unittest.TestCase):
         self.port = self.server.server_port
 
     def tearDown(self):
-        try:
-            self.server.shutdown()
-            self.thread.join()
-        finally:
-            self.server.server_close()
+        self.server.shutdown()
+        self.thread.join()
+        self.server.server_close()
 
     def test_root_request_returns_ok(self):
         conn = http.client.HTTPConnection("127.0.0.1", self.port)
-        conn.request("GET", "/", headers={"User-Agent": "Mozilla/5.0"})
-        response = conn.getresponse()
-        self.assertEqual(response.status, 200)
-        self.assertEqual(response.read(), b"OK")
-        conn.close()
+        try:
+            conn.request("GET", "/", headers={"User-Agent": "Mozilla/5.0"})
+            response = conn.getresponse()
+            self.assertEqual(response.status, 200)
+            self.assertEqual(response.read(), b"OK")
+        finally:
+            conn.close()
 
     def test_any_path_returns_ok(self):
         conn = http.client.HTTPConnection("127.0.0.1", self.port)
-        conn.request("GET", "/not-found", headers={"User-Agent": "Mozilla/5.0"})
-        response = conn.getresponse()
-        self.assertEqual(response.status, 200)
-        self.assertEqual(response.read(), b"OK")
-        conn.close()
+        try:
+            conn.request("GET", "/not-found", headers={"User-Agent": "Mozilla/5.0"})
+            response = conn.getresponse()
+            self.assertEqual(response.status, 200)
+            self.assertEqual(response.read(), b"OK")
+        finally:
+            conn.close()
