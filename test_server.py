@@ -13,9 +13,11 @@ class ServerBehaviorTests(unittest.TestCase):
         self.port = self.server.server_port
 
     def tearDown(self):
-        self.server.shutdown()
-        self.thread.join()
-        self.server.server_close()
+        try:
+            self.server.shutdown()
+            self.thread.join()
+        finally:
+            self.server.server_close()
 
     def test_root_request_returns_ok(self):
         conn = http.client.HTTPConnection("127.0.0.1", self.port)
