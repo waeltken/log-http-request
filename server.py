@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 PORT = int(os.environ.get("PORT", "8080"))
-RESPONSE_BODY = b"OK\n"
+RESPONSE_BODY = b"OK"
 
 
 class LoggingHandler(BaseHTTPRequestHandler):
